@@ -113,7 +113,7 @@
 			return;
 		}
 
-		printHTML('$ <span class="cmd-highlight">' + escapeHtml(normalized) + '</span>');
+		printHTML('<span class="cmd-prompt">&gt;</span> <span class="cmd-highlight">' + escapeHtml(normalized) + '</span>');
 
 		if (command === 'clear') {
 			outputEl.innerHTML = '';
@@ -211,17 +211,17 @@
 		}
 
 		if (command === 'pwd') {
-			printLine('/home/saikurelli/portfolio');
+			printHTML('<span class="cmd-path">/home/saikurelli/portfolio</span>');
 			return;
 		}
 
 		if (command === 'whoami') {
-			printLine('saikurelli');
+			printHTML('<span class="cmd-value">saikurelli</span>');
 			return;
 		}
 
 		if (command === 'date') {
-			printLine(new Date().toString());
+			printHTML('<span class="cmd-value">' + escapeHtml(new Date().toString()) + '</span>');
 			return;
 		}
 

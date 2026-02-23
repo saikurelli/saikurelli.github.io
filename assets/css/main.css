@@ -1855,10 +1855,14 @@ input, select, textarea {
 		border-top: 1px solid rgba(255, 255, 255, 0.12);
 	}
 
+	.prompt,
+	.cmd-prompt {
+		color: #50fa7b;
+		font-weight: 700;
+	}
+
 	.prompt {
 		font-family: "Open Sans", "Source Sans Pro", sans-serif;
-		font-weight: 700;
-		color: var(--primary);
 	}
 
 	#terminal-input {
@@ -1917,6 +1921,14 @@ input, select, textarea {
 
 	.cmd-muted {
 		opacity: 0.55;
+	}
+
+	.cmd-path {
+		color: #8be9fd;
+	}
+
+	.cmd-value {
+		color: #f1fa8c;
 	}
 
 	.terminal-controls {
