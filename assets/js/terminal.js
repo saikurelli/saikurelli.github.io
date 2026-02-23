@@ -10,13 +10,23 @@
 		return;
 	}
 
-	var commandList = ['help', 'ls', 'cat', 'pwd', 'whoami', 'date', 'open', 'history', 'theme', 'intro', 'work', 'about', 'contact', 'github', 'clear'];
+	var commandList = ['help', 'ls', 'cat', 'pwd', 'whoami', 'date', 'open', 'history', 'theme', 'intro', 'work', 'about', 'contact', 'github', 'devpost', 'clear'];
 	var sectionCommands = ['intro', 'work', 'about', 'contact'];
+	var commandArgs = {
+		'open':  ['intro', 'work', 'about', 'contact'],
+		'theme': ['dark', 'light', 'toggle', 'status']
+	};
 	var virtualFiles = {
 		'about.txt': 'I am Sai Kurelli. I studied Computer Science at UT Austin and enjoy turning complex problems into clean, well-engineered solutions.',
-		'work.txt': 'Most of my projects are on GitHub. I focus on backend systems, automation, and terminal-inspired UX patterns.',
+		'work.txt': 'Most of my projects are on GitHub (https://github.com/saikurelli). I also build on Devpost (https://devpost.com/saikurelli) — check out my hackathon submissions there.',
 		'contact.txt': 'Email: saikurelli1@gmail.com\nGitHub: https://github.com/saikurelli\nLinkedIn: https://www.linkedin.com/in/sai-kurelli/',
 		'resume.txt': 'Resume: https://saikurelli.github.io/resume/'
+	};
+	var virtualFileMeta = {
+		'about.txt':   { permissions: '-rw-r--r--', modified: new Date('2025-01-15T10:30:00') },
+		'work.txt':    { permissions: '-rw-r--r--', modified: new Date('2025-03-20T14:45:00') },
+		'contact.txt': { permissions: '-rw-r--r--', modified: new Date('2025-04-01T09:15:00') },
+		'resume.txt':  { permissions: '-rw-r--r--', modified: new Date('2025-02-10T16:20:00') }
 	};
 	var history = [];
 	var historyIndex = -1;
@@ -92,7 +102,7 @@
 	}
 
 	function openSection(section) {
-		printLine('Opening ' + section.charAt(0).toUpperCase() + section.slice(1) + ' section...');
+		printHTML('<span class="cmd-info">Opening ' + escapeHtml(section.charAt(0).toUpperCase() + section.slice(1)) + ' section...</span>');
 		window.location.hash = '#' + section;
 	}
 
@@ -107,33 +117,102 @@
 			return;
 		}
 
-		printHTML('$ <span class="cmd-highlight">' + escapeHtml(normalized) + '</span>');
+		var echoArgs = parts.slice(1).join(' ');
+		printHTML(
+			'<span class="cmd-prompt">&gt;</span>' +
+			' <span class="cmd-highlight">' + escapeHtml(command) + '</span>' +
+			(echoArgs ? ' <span class="cmd-muted">' + escapeHtml(echoArgs) + '</span>' : '')
+		);
 
 		if (command === 'clear') {
 			outputEl.innerHTML = '';
-			printLine("Terminal cleared. Try 'help'.");
+			printHTML('<span class="cmd-info">Terminal cleared. Type \'help\' to explore.</span>');
 			return;
 		}
 
 		if (command === 'help') {
-			printLines([
-				'Available commands:',
-				'- ls',
-				'- cat <about.txt|work.txt|contact.txt|resume.txt>',
-				'- pwd, whoami, date',
-				'- history',
-				'- theme <dark|light|toggle|status>',
-				'- open <intro|work|about|contact>',
-				'- intro, work, about, contact, github, clear'
-			]);
+			printLine('Available commands:');
+			[
+				['ls', '[-l] [-a] [-t] [-r] [file]'],
+				['cat', '&lt;about.txt|work.txt|contact.txt|resume.txt&gt;'],
+				['pwd', ''],
+				['whoami', ''],
+				['date', ''],
+				['history', ''],
+				['theme', '&lt;dark|light|toggle|status&gt;'],
+				['open', '&lt;intro|work|about|contact&gt;'],
+				['intro', ''],
+				['work', ''],
+				['about', ''],
+				['contact', ''],
+				['github', ''],
+				['devpost', ''],
+				['clear', '']
+			].forEach(function (entry) {
+				var cmd = entry[0];
+				var args = entry[1];
+				printHTML(
+					'  <span class="cmd-highlight">' + cmd + '</span>' +
+					(args ? ' <span class="cmd-muted">' + args + '</span>' : '')
+				);
+			});
 			return;
 		}
 
 		if (command === 'ls') {
-			var fileHtml = Object.keys(virtualFiles).map(function (name) {
-				return '<span class="cmd-file">' + escapeHtml(name) + '</span>';
-			}).join('  ');
-			printHTML(fileHtml);
+			// Parse flags and optional file-name argument
+			var lsFlags = '';
+			var lsTarget = '';
+			args.forEach(function (a) {
+				if (a.charAt(0) === '-') {
+					lsFlags += a.slice(1);
+				} else {
+					lsTarget = a;
+				}
+			});
+
+			var showLong    = lsFlags.indexOf('l') >= 0;
+			var sortByTime  = lsFlags.indexOf('t') >= 0;
+			var reverseSort = lsFlags.indexOf('r') >= 0;
+
+			var fileNames = lsTarget
+				? (lsTarget in virtualFiles ? [lsTarget] : [])
+				: Object.keys(virtualFiles);
+
+			if (lsTarget && !fileNames.length) {
+				printHTML('<span class="cmd-error">ls: ' + escapeHtml(lsTarget) + ': No such file</span>');
+				return;
+			}
+
+			if (sortByTime) {
+				fileNames.sort(function (a, b) {
+					return virtualFileMeta[b].modified - virtualFileMeta[a].modified;
+				});
+			}
+
+			if (reverseSort) {
+				fileNames.reverse();
+			}
+
+			if (showLong) {
+				fileNames.forEach(function (name) {
+					var meta = virtualFileMeta[name];
+					var d = meta.modified;
+					var dateStr = d.toLocaleDateString('en-US', { month: 'short' }) + ' ' + String(d.getDate()).padStart(2, '0') + ' ' + d.getFullYear();
+					var size = (virtualFiles[name] || '').length;
+					printHTML(
+						'<span class="cmd-muted">' + escapeHtml(meta.permissions) +
+						' 1 saikurelli saikurelli ' + String(size).padStart(5) +
+						' ' + escapeHtml(dateStr) + '</span>' +
+						' <span class="cmd-file">' + escapeHtml(name) + '</span>'
+					);
+				});
+			} else {
+				var fileHtml = fileNames.map(function (name) {
+					return '<span class="cmd-file">' + escapeHtml(name) + '</span>';
+				}).join('  ');
+				printHTML(fileHtml);
+			}
 			return;
 		}
 
@@ -156,28 +235,31 @@
 		}
 
 		if (command === 'pwd') {
-			printLine('/home/saikurelli/portfolio');
+			printHTML('<span class="cmd-path">/home/saikurelli/portfolio</span>');
 			return;
 		}
 
 		if (command === 'whoami') {
-			printLine('saikurelli');
+			printHTML('<span class="cmd-value">saikurelli</span>');
 			return;
 		}
 
 		if (command === 'date') {
-			printLine(new Date().toString());
+			printHTML('<span class="cmd-value">' + escapeHtml(new Date().toString()) + '</span>');
 			return;
 		}
 
 		if (command === 'history') {
 			if (!history.length) {
-				printLine('No commands in history yet.');
+				printHTML('<span class="cmd-info">No commands in history yet.</span>');
 				return;
 			}
 
 			history.forEach(function (historyCommand, index) {
-				printLine((index + 1) + '  ' + historyCommand.trim());
+				printHTML(
+					'<span class="cmd-muted">' + (index + 1) + '</span>' +
+					'  <span class="cmd-highlight">' + escapeHtml(historyCommand.trim()) + '</span>'
+				);
 			});
 			return;
 		}
@@ -186,20 +268,20 @@
 			var themeArg = args[0] || 'toggle';
 
 			if (themeArg === 'status') {
-				printLine('Theme: ' + getTheme());
+				printHTML('<span class="cmd-info">Theme: </span><span class="cmd-value">' + escapeHtml(getTheme()) + '</span>');
 				return;
 			}
 
 			if (themeArg === 'dark' || themeArg === 'light') {
 				setTheme(themeArg);
-				printLine('Theme set to ' + themeArg + '.');
+				printHTML('<span class="cmd-info">Theme set to </span><span class="cmd-value">' + escapeHtml(themeArg) + '</span><span class="cmd-info">.</span>');
 				return;
 			}
 
 			if (themeArg === 'toggle') {
 				var nextTheme = getTheme() === 'dark' ? 'light' : 'dark';
 				setTheme(nextTheme);
-				printLine('Theme set to ' + nextTheme + '.');
+				printHTML('<span class="cmd-info">Theme set to </span><span class="cmd-value">' + escapeHtml(nextTheme) + '</span><span class="cmd-info">.</span>');
 				return;
 			}
 
@@ -218,8 +300,14 @@
 		}
 
 		if (command === 'github') {
-			printLine('Opening GitHub profile...');
+			printHTML('<span class="cmd-info">Opening GitHub profile...</span>');
 			window.open('https://github.com/saikurelli', '_blank', 'noopener,noreferrer');
+			return;
+		}
+
+		if (command === 'devpost') {
+			printHTML('<span class="cmd-info">Opening Devpost profile...</span>');
+			window.open('https://devpost.com/saikurelli', '_blank', 'noopener,noreferrer');
 			return;
 		}
 
@@ -318,10 +406,10 @@
 				// Complete the argument
 				var arg = parts.length > 1 ? parts[parts.length - 1].toLowerCase() : '';
 				var options = [];
-				if (cmd === 'cat') {
+				if (cmd === 'cat' || cmd === 'ls') {
 					options = Object.keys(virtualFiles);
-				} else if (cmd === 'open') {
-					options = sectionCommands.slice();
+				} else if (commandArgs[cmd]) {
+					options = commandArgs[cmd].slice();
 				}
 
 				var argMatches = options.filter(function (o) {
