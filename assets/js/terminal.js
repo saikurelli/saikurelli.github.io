@@ -12,6 +12,10 @@
 
 	var commandList = ['help', 'ls', 'cat', 'pwd', 'whoami', 'date', 'open', 'history', 'theme', 'intro', 'work', 'about', 'contact', 'github', 'devpost', 'clear'];
 	var sectionCommands = ['intro', 'work', 'about', 'contact'];
+	var commandArgs = {
+		'open':  ['intro', 'work', 'about', 'contact'],
+		'theme': ['dark', 'light', 'toggle', 'status']
+	};
 	var virtualFiles = {
 		'about.txt': 'I am Sai Kurelli. I studied Computer Science at UT Austin and enjoy turning complex problems into clean, well-engineered solutions.',
 		'work.txt': 'Most of my projects are on GitHub (https://github.com/saikurelli). I also build on Devpost (https://devpost.com/saikurelli) — check out my hackathon submissions there.',
@@ -113,7 +117,12 @@
 			return;
 		}
 
-		printHTML('<span class="cmd-prompt">&gt;</span> <span class="cmd-highlight">' + escapeHtml(normalized) + '</span>');
+		var echoArgs = parts.slice(1).join(' ');
+		printHTML(
+			'<span class="cmd-prompt">&gt;</span>' +
+			' <span class="cmd-highlight">' + escapeHtml(command) + '</span>' +
+			(echoArgs ? ' <span class="cmd-muted">' + escapeHtml(echoArgs) + '</span>' : '')
+		);
 
 		if (command === 'clear') {
 			outputEl.innerHTML = '';
@@ -399,10 +408,8 @@
 				var options = [];
 				if (cmd === 'cat' || cmd === 'ls') {
 					options = Object.keys(virtualFiles);
-				} else if (cmd === 'open') {
-					options = sectionCommands.slice();
-				} else if (cmd === 'theme') {
-					options = ['dark', 'light', 'toggle', 'status'];
+				} else if (commandArgs[cmd]) {
+					options = commandArgs[cmd].slice();
 				}
 
 				var argMatches = options.filter(function (o) {
