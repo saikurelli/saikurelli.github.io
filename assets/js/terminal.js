@@ -10,11 +10,11 @@
 		return;
 	}
 
-	var commandList = ['help', 'ls', 'cat', 'pwd', 'whoami', 'date', 'open', 'history', 'theme', 'intro', 'work', 'about', 'contact', 'github', 'clear'];
+	var commandList = ['help', 'ls', 'cat', 'pwd', 'whoami', 'date', 'open', 'history', 'theme', 'intro', 'work', 'about', 'contact', 'github', 'devpost', 'clear'];
 	var sectionCommands = ['intro', 'work', 'about', 'contact'];
 	var virtualFiles = {
 		'about.txt': 'I am Sai Kurelli. I studied Computer Science at UT Austin and enjoy turning complex problems into clean, well-engineered solutions.',
-		'work.txt': 'Most of my projects are on GitHub. I focus on backend systems, automation, and terminal-inspired UX patterns.',
+		'work.txt': 'Most of my projects are on GitHub (https://github.com/saikurelli). I also build on Devpost (https://devpost.com/saikurelli) — check out my hackathon submissions there.',
 		'contact.txt': 'Email: saikurelli1@gmail.com\nGitHub: https://github.com/saikurelli\nLinkedIn: https://www.linkedin.com/in/sai-kurelli/',
 		'resume.txt': 'Resume: https://saikurelli.github.io/resume/'
 	};
@@ -130,7 +130,7 @@
 				'- history',
 				'- theme <dark|light|toggle|status>',
 				'- open <intro|work|about|contact>',
-				'- intro, work, about, contact, github, clear'
+				'- intro, work, about, contact, github, devpost, clear'
 			]);
 			return;
 		}
@@ -275,6 +275,12 @@
 		if (command === 'github') {
 			printLine('Opening GitHub profile...');
 			window.open('https://github.com/saikurelli', '_blank', 'noopener,noreferrer');
+			return;
+		}
+
+		if (command === 'devpost') {
+			printLine('Opening Devpost profile...');
+			window.open('https://devpost.com/saikurelli', '_blank', 'noopener,noreferrer');
 			return;
 		}
 

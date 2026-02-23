@@ -1668,6 +1668,9 @@ input, select, textarea {
 		--accent: #ff9900;
 		--panel-bg: rgba(12, 18, 22, 0.86);
 		--panel-border: rgba(135, 162, 211, 0.4);
+		--terminal-prompt: #50fa7b;
+		--terminal-path: #8be9fd;
+		--terminal-value: #f1fa8c;
 	}
 
 	body {
@@ -1857,7 +1860,7 @@ input, select, textarea {
 
 	.prompt,
 	.cmd-prompt {
-		color: #50fa7b;
+		color: var(--terminal-prompt);
 		font-weight: 700;
 	}
 
@@ -1924,11 +1927,11 @@ input, select, textarea {
 	}
 
 	.cmd-path {
-		color: #8be9fd;
+		color: var(--terminal-path);
 	}
 
 	.cmd-value {
-		color: #f1fa8c;
+		color: var(--terminal-value);
 	}
 
 	.terminal-controls {
