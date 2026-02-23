@@ -21,6 +21,24 @@
 	var history = [];
 	var historyIndex = -1;
 	var themeStorageKey = 'saikurelli-theme';
+	var tabMatches = [];
+	var tabMatchIndex = -1;
+
+	function escapeHtml(text) {
+		return text
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;');
+	}
+
+	function printHTML(html, cssClass) {
+		var line = document.createElement('div');
+		line.className = 'terminal-line' + (cssClass ? ' ' + cssClass : '');
+		line.innerHTML = html;
+		outputEl.appendChild(line);
+		outputEl.scrollTop = outputEl.scrollHeight;
+	}
 
 	function getTheme() {
 		return document.body.classList.contains('theme-light') ? 'light' : 'dark';
@@ -89,7 +107,7 @@
 			return;
 		}
 
-		printLine('$ ' + normalized);
+		printHTML('$ <span class="cmd-highlight">' + escapeHtml(normalized) + '</span>');
 
 		if (command === 'clear') {
 			outputEl.innerHTML = '';
@@ -112,19 +130,22 @@
 		}
 
 		if (command === 'ls') {
-			printLine('about.txt  work.txt  contact.txt  resume.txt');
+			var fileHtml = Object.keys(virtualFiles).map(function (name) {
+				return '<span class="cmd-file">' + escapeHtml(name) + '</span>';
+			}).join('  ');
+			printHTML(fileHtml);
 			return;
 		}
 
 		if (command === 'cat') {
 			var fileName = args[0] || '';
 			if (!fileName) {
-				printLine("Usage: cat <about.txt|work.txt|contact.txt|resume.txt>");
+				printHTML('<span class="cmd-error">Usage: cat &lt;' + Object.keys(virtualFiles).map(escapeHtml).join('|') + '&gt;</span>');
 				return;
 			}
 
 			if (!(fileName in virtualFiles)) {
-				printLine("cat: " + fileName + ': No such file');
+				printHTML('<span class="cmd-error">cat: ' + escapeHtml(fileName) + ': No such file</span>');
 				return;
 			}
 
@@ -207,7 +228,7 @@
 			return;
 		}
 
-		printLine("Unknown command: '" + command + "'. Type 'help'.");
+		printHTML('<span class="cmd-error">Unknown command: \'' + escapeHtml(command) + '\'.</span> Type \'help\'.');
 	}
 
 	function renderSuggestions(inputValue) {
@@ -254,6 +275,89 @@
 	});
 
 	inputEl.addEventListener('keydown', function (event) {
+		if (event.key === 'Tab') {
+			event.preventDefault();
+			var value = inputEl.value;
+			var parts = value.split(/\s+/);
+			var cmd = parts[0] ? parts[0].toLowerCase() : '';
+			var isArgPosition = parts.length > 1 || (parts.length === 1 && value.slice(-1) === ' ');
+
+			if (!isArgPosition) {
+				// Complete the command name
+				var cmdMatches = commandList.filter(function (c) {
+					return c.indexOf(cmd) === 0;
+				});
+
+				if (cmdMatches.length === 0) {
+					return;
+				}
+
+				if (event.shiftKey) {
+					if (tabMatches.join(',') !== cmdMatches.join(',')) {
+						tabMatches = cmdMatches;
+						tabMatchIndex = cmdMatches.length;
+					}
+					tabMatchIndex = (tabMatchIndex <= 0 ? cmdMatches.length : tabMatchIndex) - 1;
+				} else {
+					if (tabMatches.join(',') !== cmdMatches.join(',')) {
+						tabMatches = cmdMatches;
+						tabMatchIndex = -1;
+					}
+					tabMatchIndex = (tabMatchIndex + 1) % cmdMatches.length;
+				}
+
+				if (cmdMatches.length === 1) {
+					inputEl.value = cmdMatches[0] + ' ';
+					tabMatches = [];
+					tabMatchIndex = -1;
+				} else {
+					inputEl.value = tabMatches[tabMatchIndex];
+				}
+				renderSuggestions(inputEl.value);
+			} else {
+				// Complete the argument
+				var arg = parts.length > 1 ? parts[parts.length - 1].toLowerCase() : '';
+				var options = [];
+				if (cmd === 'cat') {
+					options = Object.keys(virtualFiles);
+				} else if (cmd === 'open') {
+					options = sectionCommands.slice();
+				}
+
+				var argMatches = options.filter(function (o) {
+					return o.indexOf(arg) === 0;
+				});
+
+				if (argMatches.length === 0) {
+					return;
+				}
+
+				if (event.shiftKey) {
+					if (tabMatches.join(',') !== argMatches.join(',')) {
+						tabMatches = argMatches;
+						tabMatchIndex = argMatches.length;
+					}
+					tabMatchIndex = (tabMatchIndex <= 0 ? argMatches.length : tabMatchIndex) - 1;
+				} else {
+					if (tabMatches.join(',') !== argMatches.join(',')) {
+						tabMatches = argMatches;
+						tabMatchIndex = -1;
+					}
+					tabMatchIndex = (tabMatchIndex + 1) % argMatches.length;
+				}
+
+				inputEl.value = cmd + ' ' + tabMatches[tabMatchIndex];
+				renderSuggestions('');
+			}
+			return;
+		}
+
+		// Reset tab cycle state on non-Tab, non-navigation keys
+		if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') {
+			tabMatches = [];
+			tabMatchIndex = -1;
+		}
+
 		if (!history.length) {
 			return;
 		}
