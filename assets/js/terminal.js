@@ -19,10 +19,10 @@
 		'resume.txt': 'Resume: https://saikurelli.github.io/resume/'
 	};
 	var virtualFileMeta = {
-		'about.txt':   { permissions: '-rw-r--r--', size: 130, modified: new Date('2025-01-15T10:30:00') },
-		'work.txt':    { permissions: '-rw-r--r--', size: 109, modified: new Date('2025-03-20T14:45:00') },
-		'contact.txt': { permissions: '-rw-r--r--', size: 117, modified: new Date('2025-04-01T09:15:00') },
-		'resume.txt':  { permissions: '-rw-r--r--', size:  44, modified: new Date('2025-02-10T16:20:00') }
+		'about.txt':   { permissions: '-rw-r--r--', modified: new Date('2025-01-15T10:30:00') },
+		'work.txt':    { permissions: '-rw-r--r--', modified: new Date('2025-03-20T14:45:00') },
+		'contact.txt': { permissions: '-rw-r--r--', modified: new Date('2025-04-01T09:15:00') },
+		'resume.txt':  { permissions: '-rw-r--r--', modified: new Date('2025-02-10T16:20:00') }
 	};
 	var history = [];
 	var historyIndex = -1;
@@ -171,14 +171,14 @@
 			}
 
 			if (showLong) {
-				var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 				fileNames.forEach(function (name) {
 					var meta = virtualFileMeta[name];
 					var d = meta.modified;
-					var dateStr = months[d.getMonth()] + ' ' + String(d.getDate()).padStart(2, '0') + ' ' + d.getFullYear();
+					var dateStr = d.toLocaleDateString('en-US', { month: 'short' }) + ' ' + String(d.getDate()).padStart(2, '0') + ' ' + d.getFullYear();
+					var size = (virtualFiles[name] || '').length;
 					printHTML(
 						'<span class="cmd-muted">' + escapeHtml(meta.permissions) +
-						' 1 saikurelli saikurelli ' + String(meta.size).padStart(5) +
+						' 1 saikurelli saikurelli ' + String(size).padStart(5) +
 						' ' + escapeHtml(dateStr) + '</span>' +
 						' <span class="cmd-file">' + escapeHtml(name) + '</span>'
 					);
