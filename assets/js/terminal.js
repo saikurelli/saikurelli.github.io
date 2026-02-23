@@ -350,8 +350,9 @@
 		});
 	}
 
-	formEl.addEventListener('click', function (event) {
-		if (event.target !== inputEl) {
+	terminalPane.addEventListener('click', function (event) {
+		var tag = event.target.tagName.toLowerCase();
+		if (tag !== 'input' && tag !== 'button' && tag !== 'a') {
 			inputEl.focus();
 		}
 	});
