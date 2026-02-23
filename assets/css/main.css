@@ -1898,6 +1898,23 @@ input, select, textarea {
 		color: var(--accent);
 	}
 
+	.cmd-highlight {
+		color: var(--accent);
+		font-weight: 600;
+	}
+
+	.cmd-file {
+		color: #27c93f;
+	}
+
+	.cmd-section {
+		color: var(--primary);
+	}
+
+	.cmd-error {
+		color: #ff5f56;
+	}
+
 	.terminal-controls {
 		display: grid;
 		grid-template-columns: repeat(5, minmax(0, 1fr));
