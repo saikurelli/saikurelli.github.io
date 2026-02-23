@@ -401,6 +401,8 @@
 					options = Object.keys(virtualFiles);
 				} else if (cmd === 'open') {
 					options = sectionCommands.slice();
+				} else if (cmd === 'theme') {
+					options = ['dark', 'light', 'toggle', 'status'];
 				}
 
 				var argMatches = options.filter(function (o) {
