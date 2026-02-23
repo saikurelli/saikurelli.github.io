@@ -1,13 +1,16 @@
 <!DOCTYPE HTML>
 <!--
-	Hi, thanks for checking out this website. 
-	Thanks to HTML5 UP for the website framework - it would have been a lot harder without it.  
+	Hi, thanks for checking out this website.
+	Thanks to HTML5 UP for the website framework - it would have been a lot harder without it.
 -->
 <html>
 	<head>
 		<title>Sai Kurelli's website</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
@@ -18,25 +21,65 @@
 
 				<!-- Header -->
 					<header id="header">
-						<div class="logo">
-							<span class="icon fa-gem"></span>
+						<div class="redesign-shell">
+							<section class="terminal-pane" aria-label="Terminal preview">
+								<div class="terminal-topbar">
+									<span class="dot red"></span>
+									<span class="dot yellow"></span>
+									<span class="dot green"></span>
+									<p class="terminal-title">saikurelli@portfolio:~</p>
+									<button type="button" id="terminal-popout" class="terminal-popout-btn" aria-label="Toggle terminal pop out">Pop Out</button>
+								</div>
+								<div class="terminal-output" id="terminal-output" aria-live="polite">
+									<div class="terminal-line">Welcome to Saikurelli's portfolio terminal.</div>
+									<div class="terminal-line">Type <span class="code">help</span> to explore.</div>
+								</div>
+								<form id="terminal-form" class="terminal-input-row">
+									<label for="terminal-input" class="sr-only">Terminal command</label>
+									<span class="prompt">$</span>
+									<input type="text" id="terminal-input" autocomplete="off" placeholder="Try: work, about, contact" />
+								</form>
+								<div class="terminal-suggestions" id="terminal-suggestions"></div>
+								<div class="terminal-controls">
+									<button type="button" class="terminal-control" data-terminal-cmd="help">Help</button>
+									<button type="button" class="terminal-control" data-terminal-cmd="work">Work</button>
+									<button type="button" class="terminal-control" data-terminal-cmd="about">About</button>
+									<button type="button" class="terminal-control" data-terminal-cmd="contact">Contact</button>
+									<button type="button" class="terminal-control" data-terminal-cmd="clear">Clear</button>
+								</div>
+							</section>
+
+							<section class="hero-pane">
+								<p class="eyebrow">Software Engineer • Builder • Curious Learner</p>
+								<h1>Saikurelli</h1>
+								<ul class="actions redesign-actions">
+									<li><a href="#work" class="button primary">View Work</a></li>
+									<li><a href="#contact" class="button">Get in Touch</a></li>
+								</ul>
+								<div class="content-cards">
+									<a href="#intro" class="content-card">
+										<h3>Intro</h3>
+										<p>Background summary and site orientation.</p>
+									</a>
+									<a href="#work" class="content-card">
+										<h3>Work</h3>
+										<p>Projects and repository links.</p>
+									</a>
+									<a href="#about" class="content-card">
+										<h3>About</h3>
+										<p>Focus areas and collaboration details.</p>
+									</a>
+									<a href="#contact" class="content-card">
+										<h3>Contact</h3>
+										<p>Email and social links in one place.</p>
+									</a>
+								</div>
+								<details class="feature-accordion">
+									<summary>Planned next for MVP+</summary>
+									<p>Planned next steps include search, richer terminal commands, and optional personalization controls.</p>
+								</details>
+							</section>
 						</div>
-						<div class="content">
-							<div class="inner">
-								<h1>Sai Kurelli</h1>
-								<p>Hi! I'm glad you found my profile. You can find my <a href="https://saikurelli.github.io/resume/">resume</a> here<br/>
-								and get in contact with me through the <a href="#contact">Contact</a> tab.</p>
-							</div>
-						</div>
-						<nav>
-							<ul>
-								<li><a href="#intro">Intro</a></li>
-								<li><a href="#work">Work</a></li>
-								<li><a href="#about">About</a></li>
-								<li><a href="#contact">Contact</a></li>
-								<!--<li><a href="#elements">Elements</a></li>-->
-							</ul>
-						</nav>
 					</header>
 
 				<!-- Main -->
@@ -45,50 +88,51 @@
 						<!-- Intro -->
 							<article id="intro">
 								<h2 class="major">Introduction</h2>
-								<span class="image main"><img src="images/Sai_2.jpeg" alt="" /></span>
-								<p>Hi there, my name is Sairaja Kurelli and go by Sai Kurelli. I'm studying Computer Science at the University of Texas at Austin and plan to graduate by 2024. By the way, check out my <a href="#work">awesome work</a> while you're here.</p>
+								<p>Hi there, my name is Sairaja Kurelli and I go by Sai Kurelli. I studied Computer Science at the University of Texas at Austin. By the way, check out my <a href="#work">awesome work</a> while you're here.</p>
+								<ul>
+									<li>You can find my resume at <a href="https://saikurelli.github.io/resume/">saikurelli.github.io/resume</a>.</li>
+									<li>Hope you enjoy this terminal-inspired layout to make navigation fast and fun!</li>
+									<li>My current focus is backend systems, exploring high-level system design concepts, and developer tooling.</li>
+								</ul>
 							</article>
 
 						<!-- Work -->
 							<article id="work">
 								<h2 class="major">Work</h2>
-								<span class="image main"><img src="images/Github.jpeg" alt="" /></span>
-								<p>Here's my <a href="https://github.com/saikurelli">Github</a> which can give you a guide to what I'm working on right now. The contribution heatmap might show some private projects so feel free to ask me about those!</p>
-								<p>My current webpage project is on generating terminal scripts for notifications.</p>
-								<p>I'm looking for internships for the Summer or Fall of 2023 and would appreciate any opportunities you have available!</p>
+								<p>Here’s my <a href="https://github.com/saikurelli">GitHub</a>, which gives a good view of what I’m working on. The contribution graph may include private projects too, so feel free to ask me about those.</p>
+								<div class="box">
+									<h3>Featured Focus</h3>
+									<p>I’m especially interested in terminal-inspired UX patterns, practical automation scripts, and maintainable engineering decisions for real projects.</p>
+								</div>
+								<ul class="actions">
+									<li><a href="https://github.com/saikurelli" class="button primary">Open GitHub</a></li>
+								</ul>
 							</article>
 
 						<!-- About -->
 							<article id="about">
-								<h2 class="major">About/Current Plans</h2>
-								<span class="image main"><img src="images/ACM.png" alt="" /></span>
-								<p>I'm currently taking Operating Systems and Linear Algebra at the University of Texas. Additionally, I'm part of the CS Organization ACM, a close-knit Computer Science community at UT.</p>
+								<h2 class="major">About</h2>
+								<p>I care about building practical software with clear architecture and strong developer experience. At UT Austin, I focused on systems-heavy coursework and stayed active in ACM, a close-knit CS community.</p>
+								<p>I enjoy combining technical depth with community involvement and hands-on project work.</p>
 								<ul>
-									<li>I'm a Vice President of Finance for ACM which means that I help plan the budget for the club and take an active role in managing events. I'm still learning the ropes and look to be a great help to the team!</li>
+									<li>I served as ACM’s Vice President of Finance, helping plan budgets and events.</li>
+									<li>I’m still learning, and I’m always looking for ways to improve my skills and have more fun programming.</li>
+									<li>I prefer iterative delivery, readable code, and maintainable engineering choices.</li>
 								</ul>
-								<!-- TODO: Add progress tag about how far I'm at in coursework IDA and make image smaller through CSS-->
 							</article>
 
 						<!-- Contact -->
 							<article id="contact">
 								<h2 class="major">Contact</h2>
-								<p> Here are some links to contact me</p>
+								<p>Here are the best ways to reach me.</p>
 								<ul class="icons">
 									<li><a href="https://github.com/saikurelli" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
-									<li><a href='mai'+'lto:'+'saikurel'
-												   +'li@gm'
-												   +'ail.com' class="icon brands fa-google"><span class="label">Google</span></a></li>
-									<li><p>Email Address: saikurelli1 at gmail.com</p></li>
+									<li><a href='#' id="email-link" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+									<li><a href="https://www.linkedin.com/in/sai-kurelli/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
 								</ul>
-								<!-- TODO: Adding POST to contact form or other ways (https://blog.getform.io/how-to-create-an-html-form-that-sends-you-an-email/)-->
-								<!-- Maybe get a temp 10 minute email and send through that?-->
-								<p>Send me a message and I'll get back to you as soon as I can!</p>
-								<form method="post" action='mai'+'lto:'+'saikurell'
-								+'i1@'
-								+'gmail.com';
-								method="POST"
-								enctype="multipart/form-data"
-								name="Sai Kurelli - Website">
+								<p>Send me a message and I'll get back to you as soon as I can.</p>
+								<p>Email: <span id="email-display"></span></p>
+								<form method="post" action="#" enctype="text/plain" name="Sai Kurelli - Website" id="contact-form">
 									<div class="fields">
 										<div class="field half">
 											<label for="name">Name</label>
@@ -108,257 +152,9 @@
 										<li><input type="reset" value="Reset" /></li>
 									</ul>
 								</form>
-								
-							</article>
-
-						<!-- Elements -->
-							<article id="elements">
-								<h2 class="major">Elements</h2>
-
-								<section>
-									<h3 class="major">Text</h3>
-									<p>This is <b>bold</b> and this is <strong>strong</strong>. This is <i>italic</i> and this is <em>emphasized</em>.
-									This is <sup>superscript</sup> text and this is <sub>subscript</sub> text.
-									This is <u>underlined</u> and this is code: <code>for (;;) { ... }</code>. Finally, <a href="#">this is a link</a>.</p>
-									<hr />
-									<h2>Heading Level 2</h2>
-									<h3>Heading Level 3</h3>
-									<h4>Heading Level 4</h4>
-									<h5>Heading Level 5</h5>
-									<h6>Heading Level 6</h6>
-									<hr />
-									<h4>Blockquote</h4>
-									<blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan faucibus. Vestibulum ante ipsum primis in faucibus lorem ipsum dolor sit amet nullam adipiscing eu felis.</blockquote>
-									<h4>Preformatted</h4>
-									<pre><code>i = 0;
-
-while (!deck.isInOrder()) {
-    print 'Iteration ' + i;
-    deck.shuffle();
-    i++;
-}
-
-print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
-								</section>
-
-								<section>
-									<h3 class="major">Lists</h3>
-
-									<h4>Unordered</h4>
-									<ul>
-										<li>Dolor pulvinar etiam.</li>
-										<li>Sagittis adipiscing.</li>
-										<li>Felis enim feugiat.</li>
-									</ul>
-
-									<h4>Alternate</h4>
-									<ul class="alt">
-										<li>Dolor pulvinar etiam.</li>
-										<li>Sagittis adipiscing.</li>
-										<li>Felis enim feugiat.</li>
-									</ul>
-
-									<h4>Ordered</h4>
-									<ol>
-										<li>Dolor pulvinar etiam.</li>
-										<li>Etiam vel felis viverra.</li>
-										<li>Felis enim feugiat.</li>
-										<li>Dolor pulvinar etiam.</li>
-										<li>Etiam vel felis lorem.</li>
-										<li>Felis enim et feugiat.</li>
-									</ol>
-									<h4>Icons</h4>
-									<ul class="icons">
-										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-										<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
-									</ul>
-
-									<h4>Actions</h4>
-									<ul class="actions">
-										<li><a href="#" class="button primary">Default</a></li>
-										<li><a href="#" class="button">Default</a></li>
-									</ul>
-									<ul class="actions stacked">
-										<li><a href="#" class="button primary">Default</a></li>
-										<li><a href="#" class="button">Default</a></li>
-									</ul>
-								</section>
-
-								<section>
-									<h3 class="major">Table</h3>
-									<h4>Default</h4>
-									<div class="table-wrapper">
-										<table>
-											<thead>
-												<tr>
-													<th>Name</th>
-													<th>Description</th>
-													<th>Price</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Item One</td>
-													<td>Ante turpis integer aliquet porttitor.</td>
-													<td>29.99</td>
-												</tr>
-												<tr>
-													<td>Item Two</td>
-													<td>Vis ac commodo adipiscing arcu aliquet.</td>
-													<td>19.99</td>
-												</tr>
-												<tr>
-													<td>Item Three</td>
-													<td> Morbi faucibus arcu accumsan lorem.</td>
-													<td>29.99</td>
-												</tr>
-												<tr>
-													<td>Item Four</td>
-													<td>Vitae integer tempus condimentum.</td>
-													<td>19.99</td>
-												</tr>
-												<tr>
-													<td>Item Five</td>
-													<td>Ante turpis integer aliquet porttitor.</td>
-													<td>29.99</td>
-												</tr>
-											</tbody>
-											<tfoot>
-												<tr>
-													<td colspan="2"></td>
-													<td>100.00</td>
-												</tr>
-											</tfoot>
-										</table>
-									</div>
-
-									<h4>Alternate</h4>
-									<div class="table-wrapper">
-										<table class="alt">
-											<thead>
-												<tr>
-													<th>Name</th>
-													<th>Description</th>
-													<th>Price</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Item One</td>
-													<td>Ante turpis integer aliquet porttitor.</td>
-													<td>29.99</td>
-												</tr>
-												<tr>
-													<td>Item Two</td>
-													<td>Vis ac commodo adipiscing arcu aliquet.</td>
-													<td>19.99</td>
-												</tr>
-												<tr>
-													<td>Item Three</td>
-													<td> Morbi faucibus arcu accumsan lorem.</td>
-													<td>29.99</td>
-												</tr>
-												<tr>
-													<td>Item Four</td>
-													<td>Vitae integer tempus condimentum.</td>
-													<td>19.99</td>
-												</tr>
-												<tr>
-													<td>Item Five</td>
-													<td>Ante turpis integer aliquet porttitor.</td>
-													<td>29.99</td>
-												</tr>
-											</tbody>
-											<tfoot>
-												<tr>
-													<td colspan="2"></td>
-													<td>100.00</td>
-												</tr>
-											</tfoot>
-										</table>
-									</div>
-								</section>
-
-								<section>
-									<h3 class="major">Buttons</h3>
-									<ul class="actions">
-										<li><a href="#" class="button primary">Primary</a></li>
-										<li><a href="#" class="button">Default</a></li>
-									</ul>
-									<ul class="actions">
-										<li><a href="#" class="button">Default</a></li>
-										<li><a href="#" class="button small">Small</a></li>
-									</ul>
-									<ul class="actions">
-										<li><a href="#" class="button primary icon solid fa-download">Icon</a></li>
-										<li><a href="#" class="button icon solid fa-download">Icon</a></li>
-									</ul>
-									<ul class="actions">
-										<li><span class="button primary disabled">Disabled</span></li>
-										<li><span class="button disabled">Disabled</span></li>
-									</ul>
-								</section>
-
-								<section>
-									<h3 class="major">Form</h3>
-									<form method="post" action="#">
-										<div class="fields">
-											<div class="field half">
-												<label for="demo-name">Name</label>
-												<input type="text" name="demo-name" id="demo-name" value="" placeholder="Jane Doe" />
-											</div>
-											<div class="field half">
-												<label for="demo-email">Email</label>
-												<input type="email" name="demo-email" id="demo-email" value="" placeholder="jane@untitled.tld" />
-											</div>
-											<div class="field">
-												<label for="demo-category">Category</label>
-												<select name="demo-category" id="demo-category">
-													<option value="">-</option>
-													<option value="1">Manufacturing</option>
-													<option value="1">Shipping</option>
-													<option value="1">Administration</option>
-													<option value="1">Human Resources</option>
-												</select>
-											</div>
-											<div class="field half">
-												<input type="radio" id="demo-priority-low" name="demo-priority" checked>
-												<label for="demo-priority-low">Low</label>
-											</div>
-											<div class="field half">
-												<input type="radio" id="demo-priority-high" name="demo-priority">
-												<label for="demo-priority-high">High</label>
-											</div>
-											<div class="field half">
-												<input type="checkbox" id="demo-copy" name="demo-copy">
-												<label for="demo-copy">Email me a copy</label>
-											</div>
-											<div class="field half">
-												<input type="checkbox" id="demo-human" name="demo-human" checked>
-												<label for="demo-human">Not a robot</label>
-											</div>
-											<div class="field">
-												<label for="demo-message">Message</label>
-												<textarea name="demo-message" id="demo-message" placeholder="Enter your message" rows="6"></textarea>
-											</div>
-										</div>
-										<ul class="actions">
-											<li><input type="submit" value="Send Message" class="primary" /></li>
-											<li><input type="reset" value="Reset" /></li>
-										</ul>
-									</form>
-								</section>
-
 							</article>
 
 					</div>
-
-				<!-- Footer -->
-					<footer id="footer">
-						<p class="copyright">&copy; Sai Kurelli.</p>
-					</footer>
 
 			</div>
 
@@ -371,6 +167,38 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script src="assets/js/terminal.js"></script>
+			<script>
+				// Email obfuscation to prevent web crawler harvesting
+				(function() {
+					var user = 'saikur' + 'elli1';
+					var domain = 'gm' + 'ail.com';
+					var email = user + '@' + domain;
+					var mailto = 'mai' + 'lto:' + email;
+
+					// Set email link in icon list
+					var emailLink = document.getElementById('email-link');
+					if (emailLink) {
+						emailLink.href = mailto;
+					}
+
+					// Set email display text
+					var emailDisplay = document.getElementById('email-display');
+					if (emailDisplay) {
+						var displayLink = document.createElement('a');
+						displayLink.href = mailto;
+						displayLink.textContent = email;
+						emailDisplay.appendChild(displayLink);
+					}
+
+					// Set form action
+					var contactForm = document.getElementById('contact-form');
+					if (contactForm) {
+						contactForm.action = mailto;
+					}
+				})();
+			</script>
 
 	</body>
 </html>
+
