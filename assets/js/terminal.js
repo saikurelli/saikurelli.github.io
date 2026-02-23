@@ -98,7 +98,7 @@
 	}
 
 	function openSection(section) {
-		printLine('Opening ' + section.charAt(0).toUpperCase() + section.slice(1) + ' section...');
+		printHTML('<span class="cmd-info">Opening ' + escapeHtml(section.charAt(0).toUpperCase() + section.slice(1)) + ' section...</span>');
 		window.location.hash = '#' + section;
 	}
 
@@ -117,21 +117,36 @@
 
 		if (command === 'clear') {
 			outputEl.innerHTML = '';
-			printLine("Terminal cleared. Try 'help'.");
+			printHTML('<span class="cmd-info">Terminal cleared. Type \'help\' to explore.</span>');
 			return;
 		}
 
 		if (command === 'help') {
-			printLines([
-				'Available commands:',
-				'- ls [-l] [-a] [-t] [-r] [file]',
-				'- cat <about.txt|work.txt|contact.txt|resume.txt>',
-				'- pwd, whoami, date',
-				'- history',
-				'- theme <dark|light|toggle|status>',
-				'- open <intro|work|about|contact>',
-				'- intro, work, about, contact, github, devpost, clear'
-			]);
+			printLine('Available commands:');
+			[
+				['ls', '[-l] [-a] [-t] [-r] [file]'],
+				['cat', '&lt;about.txt|work.txt|contact.txt|resume.txt&gt;'],
+				['pwd', ''],
+				['whoami', ''],
+				['date', ''],
+				['history', ''],
+				['theme', '&lt;dark|light|toggle|status&gt;'],
+				['open', '&lt;intro|work|about|contact&gt;'],
+				['intro', ''],
+				['work', ''],
+				['about', ''],
+				['contact', ''],
+				['github', ''],
+				['devpost', ''],
+				['clear', '']
+			].forEach(function (entry) {
+				var cmd = entry[0];
+				var args = entry[1];
+				printHTML(
+					'  <span class="cmd-highlight">' + cmd + '</span>' +
+					(args ? ' <span class="cmd-muted">' + args + '</span>' : '')
+				);
+			});
 			return;
 		}
 
@@ -227,12 +242,15 @@
 
 		if (command === 'history') {
 			if (!history.length) {
-				printLine('No commands in history yet.');
+				printHTML('<span class="cmd-info">No commands in history yet.</span>');
 				return;
 			}
 
 			history.forEach(function (historyCommand, index) {
-				printLine((index + 1) + '  ' + historyCommand.trim());
+				printHTML(
+					'<span class="cmd-muted">' + (index + 1) + '</span>' +
+					'  <span class="cmd-highlight">' + escapeHtml(historyCommand.trim()) + '</span>'
+				);
 			});
 			return;
 		}
@@ -241,20 +259,20 @@
 			var themeArg = args[0] || 'toggle';
 
 			if (themeArg === 'status') {
-				printLine('Theme: ' + getTheme());
+				printHTML('<span class="cmd-info">Theme: </span><span class="cmd-value">' + escapeHtml(getTheme()) + '</span>');
 				return;
 			}
 
 			if (themeArg === 'dark' || themeArg === 'light') {
 				setTheme(themeArg);
-				printLine('Theme set to ' + themeArg + '.');
+				printHTML('<span class="cmd-info">Theme set to </span><span class="cmd-value">' + escapeHtml(themeArg) + '</span><span class="cmd-info">.</span>');
 				return;
 			}
 
 			if (themeArg === 'toggle') {
 				var nextTheme = getTheme() === 'dark' ? 'light' : 'dark';
 				setTheme(nextTheme);
-				printLine('Theme set to ' + nextTheme + '.');
+				printHTML('<span class="cmd-info">Theme set to </span><span class="cmd-value">' + escapeHtml(nextTheme) + '</span><span class="cmd-info">.</span>');
 				return;
 			}
 
@@ -273,13 +291,13 @@
 		}
 
 		if (command === 'github') {
-			printLine('Opening GitHub profile...');
+			printHTML('<span class="cmd-info">Opening GitHub profile...</span>');
 			window.open('https://github.com/saikurelli', '_blank', 'noopener,noreferrer');
 			return;
 		}
 
 		if (command === 'devpost') {
-			printLine('Opening Devpost profile...');
+			printHTML('<span class="cmd-info">Opening Devpost profile...</span>');
 			window.open('https://devpost.com/saikurelli', '_blank', 'noopener,noreferrer');
 			return;
 		}

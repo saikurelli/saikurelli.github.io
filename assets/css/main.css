@@ -1679,6 +1679,13 @@ input, select, textarea {
 
 	body.theme-light {
 		background: #e9eef4;
+		--terminal-prompt: #0d6b1d;
+		--terminal-path: #0369a1;
+		--terminal-value: #92400e;
+	}
+
+	body.theme-light .cmd-file {
+		color: #166534;
 	}
 
 	body.theme-light,
@@ -1924,6 +1931,10 @@ input, select, textarea {
 
 	.cmd-muted {
 		opacity: 0.55;
+	}
+
+	.cmd-info {
+		color: var(--primary);
 	}
 
 	.cmd-path {
