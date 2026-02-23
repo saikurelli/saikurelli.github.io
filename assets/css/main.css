@@ -1668,6 +1668,9 @@ input, select, textarea {
 		--accent: #ff9900;
 		--panel-bg: rgba(12, 18, 22, 0.86);
 		--panel-border: rgba(135, 162, 211, 0.4);
+		--terminal-prompt: #50fa7b;
+		--terminal-path: #8be9fd;
+		--terminal-value: #f1fa8c;
 	}
 
 	body {
@@ -1676,6 +1679,13 @@ input, select, textarea {
 
 	body.theme-light {
 		background: #e9eef4;
+		--terminal-prompt: #0d6b1d;
+		--terminal-path: #0369a1;
+		--terminal-value: #92400e;
+	}
+
+	body.theme-light .cmd-file {
+		color: #166534;
 	}
 
 	body.theme-light,
@@ -1855,10 +1865,14 @@ input, select, textarea {
 		border-top: 1px solid rgba(255, 255, 255, 0.12);
 	}
 
+	.prompt,
+	.cmd-prompt {
+		color: var(--terminal-prompt);
+		font-weight: 700;
+	}
+
 	.prompt {
 		font-family: "Open Sans", "Source Sans Pro", sans-serif;
-		font-weight: 700;
-		color: var(--primary);
 	}
 
 	#terminal-input {
@@ -1913,6 +1927,22 @@ input, select, textarea {
 
 	.cmd-error {
 		color: #ff5f56;
+	}
+
+	.cmd-muted {
+		opacity: 0.55;
+	}
+
+	.cmd-info {
+		color: var(--primary);
+	}
+
+	.cmd-path {
+		color: var(--terminal-path);
+	}
+
+	.cmd-value {
+		color: var(--terminal-value);
 	}
 
 	.terminal-controls {
