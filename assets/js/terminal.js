@@ -268,7 +268,11 @@
 		if (event.key === 'ArrowDown') {
 			event.preventDefault();
 			historyIndex = Math.min(history.length, historyIndex + 1);
-			inputEl.value = history[historyIndex] || '';
+			if (historyIndex === history.length) {
+				inputEl.value = '';
+			} else {
+				inputEl.value = history[historyIndex];
+			}
 		}
 	});
 
