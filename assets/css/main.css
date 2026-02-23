@@ -1915,6 +1915,10 @@ input, select, textarea {
 		color: #ff5f56;
 	}
 
+	.cmd-muted {
+		opacity: 0.55;
+	}
+
 	.terminal-controls {
 		display: grid;
 		grid-template-columns: repeat(4, minmax(min-content, 1fr));

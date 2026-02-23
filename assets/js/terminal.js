@@ -18,6 +18,12 @@
 		'contact.txt': 'Email: saikurelli1@gmail.com\nGitHub: https://github.com/saikurelli\nLinkedIn: https://www.linkedin.com/in/sai-kurelli/',
 		'resume.txt': 'Resume: https://saikurelli.github.io/resume/'
 	};
+	var virtualFileMeta = {
+		'about.txt':   { permissions: '-rw-r--r--', size: 130, modified: new Date('2025-01-15T10:30:00') },
+		'work.txt':    { permissions: '-rw-r--r--', size: 109, modified: new Date('2025-03-20T14:45:00') },
+		'contact.txt': { permissions: '-rw-r--r--', size: 117, modified: new Date('2025-04-01T09:15:00') },
+		'resume.txt':  { permissions: '-rw-r--r--', size:  44, modified: new Date('2025-02-10T16:20:00') }
+	};
 	var history = [];
 	var historyIndex = -1;
 	var themeStorageKey = 'saikurelli-theme';
@@ -118,7 +124,7 @@
 		if (command === 'help') {
 			printLines([
 				'Available commands:',
-				'- ls',
+				'- ls [-l] [-a] [-t] [-r] [file]',
 				'- cat <about.txt|work.txt|contact.txt|resume.txt>',
 				'- pwd, whoami, date',
 				'- history',
@@ -130,10 +136,59 @@
 		}
 
 		if (command === 'ls') {
-			var fileHtml = Object.keys(virtualFiles).map(function (name) {
-				return '<span class="cmd-file">' + escapeHtml(name) + '</span>';
-			}).join('  ');
-			printHTML(fileHtml);
+			// Parse flags and optional file-name argument
+			var lsFlags = '';
+			var lsTarget = '';
+			args.forEach(function (a) {
+				if (a.charAt(0) === '-') {
+					lsFlags += a.slice(1);
+				} else {
+					lsTarget = a;
+				}
+			});
+
+			var showLong    = lsFlags.indexOf('l') >= 0;
+			var sortByTime  = lsFlags.indexOf('t') >= 0;
+			var reverseSort = lsFlags.indexOf('r') >= 0;
+
+			var fileNames = lsTarget
+				? (lsTarget in virtualFiles ? [lsTarget] : [])
+				: Object.keys(virtualFiles);
+
+			if (lsTarget && !fileNames.length) {
+				printHTML('<span class="cmd-error">ls: ' + escapeHtml(lsTarget) + ': No such file</span>');
+				return;
+			}
+
+			if (sortByTime) {
+				fileNames.sort(function (a, b) {
+					return virtualFileMeta[b].modified - virtualFileMeta[a].modified;
+				});
+			}
+
+			if (reverseSort) {
+				fileNames.reverse();
+			}
+
+			if (showLong) {
+				var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+				fileNames.forEach(function (name) {
+					var meta = virtualFileMeta[name];
+					var d = meta.modified;
+					var dateStr = months[d.getMonth()] + ' ' + String(d.getDate()).padStart(2, '0') + ' ' + d.getFullYear();
+					printHTML(
+						'<span class="cmd-muted">' + escapeHtml(meta.permissions) +
+						' 1 saikurelli saikurelli ' + String(meta.size).padStart(5) +
+						' ' + escapeHtml(dateStr) + '</span>' +
+						' <span class="cmd-file">' + escapeHtml(name) + '</span>'
+					);
+				});
+			} else {
+				var fileHtml = fileNames.map(function (name) {
+					return '<span class="cmd-file">' + escapeHtml(name) + '</span>';
+				}).join('  ');
+				printHTML(fileHtml);
+			}
 			return;
 		}
 
@@ -318,7 +373,7 @@
 				// Complete the argument
 				var arg = parts.length > 1 ? parts[parts.length - 1].toLowerCase() : '';
 				var options = [];
-				if (cmd === 'cat') {
+				if (cmd === 'cat' || cmd === 'ls') {
 					options = Object.keys(virtualFiles);
 				} else if (cmd === 'open') {
 					options = sectionCommands.slice();
