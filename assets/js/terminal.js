@@ -13,7 +13,7 @@
 	var commandList = ['help', 'ls', 'cat', 'pwd', 'whoami', 'date', 'open', 'history', 'theme', 'intro', 'work', 'about', 'contact', 'github', 'devpost', 'clear'];
 	var sectionCommands = ['intro', 'work', 'about', 'contact'];
 	var commandArgs = {
-		'open':  ['intro', 'work', 'about', 'contact'],
+		'open':  ['intro', 'work', 'about', 'contact', 'resume'],
 		'theme': ['dark', 'light', 'toggle', 'status']
 	};
 	var virtualFiles = {
@@ -140,7 +140,7 @@
 				['date', ''],
 				['history', ''],
 				['theme', '&lt;dark|light|toggle|status&gt;'],
-				['open', '&lt;intro|work|about|contact&gt;'],
+				['open', '&lt;intro|work|about|contact|resume&gt;'],
 				['intro', ''],
 				['work', ''],
 				['about', ''],
@@ -291,8 +291,12 @@
 
 		if (command === 'open') {
 			var section = args[0] || '';
+			if (section === 'resume') {
+				printHTML('Resume: <a href="https://saikurelli.github.io/resume/" target="_blank" rel="noopener noreferrer">https://saikurelli.github.io/resume/</a>');
+				return;
+			}
 			if (sectionCommands.indexOf(section) < 0) {
-				printLine("Usage: open <intro|work|about|contact>");
+				printLine("Usage: open <intro|work|about|contact|resume>");
 				return;
 			}
 			openSection(section);
@@ -345,6 +349,12 @@
 			suggestionsEl.appendChild(item);
 		});
 	}
+
+	formEl.addEventListener('click', function (event) {
+		if (event.target !== inputEl) {
+			inputEl.focus();
+		}
+	});
 
 	formEl.addEventListener('submit', function (event) {
 		event.preventDefault();

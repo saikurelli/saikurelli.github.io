@@ -1863,6 +1863,7 @@ input, select, textarea {
 		gap: 0.6rem;
 		padding: 0.8rem 1rem;
 		border-top: 1px solid rgba(255, 255, 255, 0.12);
+		cursor: text;
 	}
 
 	.prompt,
@@ -1882,6 +1883,7 @@ input, select, textarea {
 		color: #ffffff;
 		padding: 0;
 		height: auto;
+		flex: 1;
 	}
 
 	#terminal-input:focus {
