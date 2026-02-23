@@ -227,6 +227,7 @@
 			item.type = 'button';
 			item.className = 'suggestion-item';
 			item.textContent = command;
+			item.setAttribute('aria-label', 'Insert command: ' + command);
 			item.addEventListener('click', function () {
 				inputEl.value = command;
 				suggestionsEl.innerHTML = '';
