@@ -13,7 +13,7 @@
 	var commandList = ['help', 'ls', 'cat', 'pwd', 'whoami', 'date', 'open', 'history', 'theme', 'intro', 'work', 'about', 'contact', 'github', 'clear'];
 	var sectionCommands = ['intro', 'work', 'about', 'contact'];
 	var virtualFiles = {
-		'about.txt': 'I am Sai Kurelli. I studied Computer Science at UT Austin and enjoy building practical software in proper ways.',
+		'about.txt': 'I am Sai Kurelli. I studied Computer Science at UT Austin and enjoy turning complex problems into clean, well-engineered solutions.',
 		'work.txt': 'Most of my projects are on GitHub. I focus on backend systems, automation, and terminal-inspired UX patterns.',
 		'contact.txt': 'Email: saikurelli1@gmail.com\nGitHub: https://github.com/saikurelli\nLinkedIn: https://www.linkedin.com/in/sai-kurelli/',
 		'resume.txt': 'Resume: https://saikurelli.github.io/resume/'
