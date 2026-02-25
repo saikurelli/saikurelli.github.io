@@ -1965,6 +1965,7 @@ input, select, textarea {
 	.hero-pane {
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 		padding: 2rem;
 		min-height: 38rem;
 		overflow-y: auto;
