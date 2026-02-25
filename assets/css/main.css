@@ -1992,14 +1992,13 @@ input, select, textarea {
 	}
 
 	.redesign-actions {
+		margin-top: 1rem;
 		margin-bottom: 0.5rem;
 	}
 
 	.resume-row {
 		text-align: center;
-		padding-top: 1.25rem;
 		margin-bottom: 1.5rem;
-		border-top: 1px solid rgba(255, 255, 255, 0.1);
 	}
 
 	.resume-row .button {
