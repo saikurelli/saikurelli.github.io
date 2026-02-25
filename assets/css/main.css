@@ -1757,7 +1757,6 @@ input, select, textarea {
 	body.theme-light .terminal-pane,
 	body.theme-light .hero-pane,
 	body.theme-light #main article,
-	body.theme-light .feature-accordion,
 	body.theme-light .content-card {
 		background: rgba(255, 255, 255, 0.86);
 		border-color: rgba(75, 91, 83, 0.35);
@@ -1765,8 +1764,7 @@ input, select, textarea {
 
 	body.theme-light .content-card p,
 	body.theme-light .hero-pane p,
-	body.theme-light .terminal-title,
-	body.theme-light .feature-accordion p {
+	body.theme-light .terminal-title {
 		color: #273342;
 		opacity: 1;
 	}
@@ -2046,26 +2044,6 @@ input, select, textarea {
 	.content-card:hover {
 		border-color: var(--primary);
 		background: rgba(135, 162, 211, 0.15);
-	}
-
-	.feature-accordion {
-		border: 1px solid rgba(255, 255, 255, 0.2);
-		border-radius: 8px;
-		padding: 0.8rem 1rem;
-		background: rgba(255, 255, 255, 0.02);
-	}
-
-	.feature-accordion summary {
-		cursor: pointer;
-		text-transform: uppercase;
-		font-size: 0.68rem;
-		letter-spacing: 0.11rem;
-		color: var(--primary);
-	}
-
-	.feature-accordion p {
-		margin: 0.8rem 0 0;
-		font-size: 0.86rem;
 	}
 
 	#main article {
