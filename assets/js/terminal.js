@@ -10,8 +10,8 @@
 		return;
 	}
 
-	var commandList = ['help', 'ls', 'cat', 'pwd', 'whoami', 'date', 'open', 'history', 'theme', 'intro', 'work', 'about', 'contact', 'github', 'devpost', 'clear'];
-	var sectionCommands = ['intro', 'work', 'about', 'contact'];
+	var commandList = ['help', 'ls', 'cat', 'pwd', 'whoami', 'date', 'open', 'history', 'theme', 'intro', 'work', 'about', 'contact', 'resume', 'github', 'devpost', 'clear'];
+	var sectionCommands = ['intro', 'work', 'about', 'contact', 'resume'];
 	var commandArgs = {
 		'open':  ['intro', 'work', 'about', 'contact', 'resume'],
 		'theme': ['dark', 'light', 'toggle', 'status']
@@ -145,6 +145,7 @@
 				['work', ''],
 				['about', ''],
 				['contact', ''],
+				['resume', ''],
 				['github', ''],
 				['devpost', ''],
 				['clear', '']
@@ -291,10 +292,6 @@
 
 		if (command === 'open') {
 			var section = args[0] || '';
-			if (section === 'resume') {
-				printHTML('Resume: <a href="https://saikurelli.github.io/resume/" target="_blank" rel="noopener noreferrer">https://saikurelli.github.io/resume/</a>');
-				return;
-			}
 			if (sectionCommands.indexOf(section) < 0) {
 				printLine("Usage: open <intro|work|about|contact|resume>");
 				return;
