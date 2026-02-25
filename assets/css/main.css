@@ -2010,12 +2010,6 @@ input, select, textarea {
 		min-width: 12rem;
 	}
 
-	.contact-row {
-		text-align: center;
-		margin-top: 1rem;
-		margin-bottom: 0.5rem;
-	}
-
 	.content-cards {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
