@@ -1982,6 +1982,7 @@ input, select, textarea {
 		line-height: 1.2;
 		letter-spacing: 0.25rem;
 		margin-bottom: 1rem;
+		text-align: center;
 	}
 
 	.hero-pane p {
@@ -1994,6 +1995,7 @@ input, select, textarea {
 		text-transform: uppercase;
 		color: var(--primary);
 		margin-bottom: 0.75rem;
+		text-align: center;
 	}
 
 	.redesign-actions {
