@@ -10,8 +10,8 @@
 		return;
 	}
 
-	var commandList = ['help', 'ls', 'cat', 'pwd', 'whoami', 'date', 'open', 'history', 'theme', 'intro', 'work', 'about', 'contact', 'github', 'devpost', 'clear'];
-	var sectionCommands = ['intro', 'work', 'about', 'contact'];
+	var commandList = ['help', 'ls', 'cat', 'pwd', 'whoami', 'date', 'open', 'history', 'theme', 'intro', 'work', 'about', 'contact', 'resume', 'github', 'devpost', 'clear'];
+	var sectionCommands = ['intro', 'work', 'about', 'contact', 'resume'];
 	var commandArgs = {
 		'open':  ['intro', 'work', 'about', 'contact', 'resume'],
 		'theme': ['dark', 'light', 'toggle', 'status']
@@ -20,13 +20,15 @@
 		'about.txt': 'I am Sai Kurelli. I studied Computer Science at UT Austin and enjoy turning complex problems into clean, well-engineered solutions.',
 		'work.txt': 'Most of my projects are on GitHub (https://github.com/saikurelli). I also build on Devpost (https://devpost.com/saikurelli) — check out my hackathon submissions there.',
 		'contact.txt': 'Email: saikurelli1@gmail.com\nGitHub: https://github.com/saikurelli\nLinkedIn: https://www.linkedin.com/in/sai-kurelli/',
-		'resume.txt': 'Resume: https://saikurelli.github.io/resume/'
+		'resume.txt': 'Resume: https://saikurelli.github.io/resume/',
+		'.plans.txt': 'Planned next steps include search, richer terminal commands, and optional personalization controls.'
 	};
 	var virtualFileMeta = {
 		'about.txt':   { permissions: '-rw-r--r--', modified: new Date('2025-01-15T10:30:00') },
 		'work.txt':    { permissions: '-rw-r--r--', modified: new Date('2025-03-20T14:45:00') },
 		'contact.txt': { permissions: '-rw-r--r--', modified: new Date('2025-04-01T09:15:00') },
-		'resume.txt':  { permissions: '-rw-r--r--', modified: new Date('2025-02-10T16:20:00') }
+		'resume.txt':  { permissions: '-rw-r--r--', modified: new Date('2025-02-10T16:20:00') },
+		'.plans.txt':  { permissions: '-rw-------', modified: new Date('2025-05-01T12:00:00') }
 	};
 	var history = [];
 	var historyIndex = -1;
@@ -145,6 +147,7 @@
 				['work', ''],
 				['about', ''],
 				['contact', ''],
+				['resume', ''],
 				['github', ''],
 				['devpost', ''],
 				['clear', '']
@@ -187,12 +190,15 @@
 			});
 
 			var showLong    = lsFlags.indexOf('l') >= 0;
+			var showHidden  = lsFlags.indexOf('a') >= 0;
 			var sortByTime  = lsFlags.indexOf('t') >= 0;
 			var reverseSort = lsFlags.indexOf('r') >= 0;
 
 			var fileNames = lsTarget
 				? (lsTarget in virtualFiles ? [lsTarget] : [])
-				: Object.keys(virtualFiles);
+				: Object.keys(virtualFiles).filter(function (name) {
+					return showHidden || name.charAt(0) !== '.';
+				});
 
 			if (lsTarget && !fileNames.length) {
 				printHTML('<span class="cmd-error">ls: ' + escapeHtml(lsTarget) + ': No such file</span>');
@@ -306,10 +312,6 @@
 
 		if (command === 'open') {
 			var section = args[0] || '';
-			if (section === 'resume') {
-				printHTML('Resume: <a href="https://saikurelli.github.io/resume/" target="_blank" rel="noopener noreferrer">https://saikurelli.github.io/resume/</a>');
-				return;
-			}
 			if (sectionCommands.indexOf(section) < 0) {
 				printLine("Usage: open <intro|work|about|contact|resume>");
 				return;

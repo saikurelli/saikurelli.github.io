@@ -1757,7 +1757,6 @@ input, select, textarea {
 	body.theme-light .terminal-pane,
 	body.theme-light .hero-pane,
 	body.theme-light #main article,
-	body.theme-light .feature-accordion,
 	body.theme-light .content-card {
 		background: rgba(255, 255, 255, 0.86);
 		border-color: rgba(75, 91, 83, 0.35);
@@ -1765,8 +1764,7 @@ input, select, textarea {
 
 	body.theme-light .content-card p,
 	body.theme-light .hero-pane p,
-	body.theme-light .terminal-title,
-	body.theme-light .feature-accordion p {
+	body.theme-light .terminal-title {
 		color: #273342;
 		opacity: 1;
 	}
@@ -1949,7 +1947,7 @@ input, select, textarea {
 
 	.terminal-controls {
 		display: grid;
-		grid-template-columns: repeat(4, minmax(min-content, 1fr));
+		grid-template-columns: repeat(5, minmax(min-content, 1fr));
 		gap: 0.4rem;
 		padding: 0 1rem 1rem;
 	}
@@ -1967,9 +1965,16 @@ input, select, textarea {
 	.hero-pane {
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 		padding: 2rem;
 		min-height: 38rem;
 		overflow-y: auto;
+	}
+
+	.hero-body {
+		display: flex;
+		flex-direction: column;
+		margin-top: 1.5rem;
 	}
 
 	.hero-pane h1 {
@@ -1977,6 +1982,7 @@ input, select, textarea {
 		line-height: 1.2;
 		letter-spacing: 0.25rem;
 		margin-bottom: 1rem;
+		text-align: center;
 	}
 
 	.hero-pane p {
@@ -1989,10 +1995,21 @@ input, select, textarea {
 		text-transform: uppercase;
 		color: var(--primary);
 		margin-bottom: 0.75rem;
+		text-align: center;
 	}
 
 	.redesign-actions {
+		margin-top: 1rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.resume-row {
+		text-align: center;
 		margin-bottom: 1.5rem;
+	}
+
+	.resume-row .button {
+		min-width: 12rem;
 	}
 
 	.content-cards {
@@ -2029,26 +2046,6 @@ input, select, textarea {
 	.content-card:hover {
 		border-color: var(--primary);
 		background: rgba(135, 162, 211, 0.15);
-	}
-
-	.feature-accordion {
-		border: 1px solid rgba(255, 255, 255, 0.2);
-		border-radius: 8px;
-		padding: 0.8rem 1rem;
-		background: rgba(255, 255, 255, 0.02);
-	}
-
-	.feature-accordion summary {
-		cursor: pointer;
-		text-transform: uppercase;
-		font-size: 0.68rem;
-		letter-spacing: 0.11rem;
-		color: var(--primary);
-	}
-
-	.feature-accordion p {
-		margin: 0.8rem 0 0;
-		font-size: 0.86rem;
 	}
 
 	#main article {
