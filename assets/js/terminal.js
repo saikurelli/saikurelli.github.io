@@ -159,6 +159,21 @@
 					(args ? ' <span class="cmd-muted">' + args + '</span>' : '')
 				);
 			});
+			printLine('');
+			printLine('Keyboard shortcuts:');
+			[
+				['Ctrl+L', 'clear terminal output'],
+				['Ctrl+U', 'clear current input line'],
+				['Ctrl+`', 'toggle pop-out mode'],
+				['Escape', 'close pop-out mode'],
+				['↑ / ↓', 'navigate command history'],
+				['Tab', 'autocomplete command or argument']
+			].forEach(function (entry) {
+				printHTML(
+					'  <span class="cmd-highlight">' + escapeHtml(entry[0]) + '</span>' +
+					'  <span class="cmd-muted">' + escapeHtml(entry[1]) + '</span>'
+				);
+			});
 			return;
 		}
 
@@ -376,6 +391,22 @@
 	});
 
 	inputEl.addEventListener('keydown', function (event) {
+		if (event.ctrlKey && event.key === 'l') {
+			event.preventDefault();
+			outputEl.innerHTML = '';
+			printHTML('<span class="cmd-info">Terminal cleared. Type \'help\' to explore.</span>');
+			return;
+		}
+
+		if (event.ctrlKey && event.key === 'u') {
+			event.preventDefault();
+			inputEl.value = '';
+			suggestionsEl.innerHTML = '';
+			tabMatches = [];
+			tabMatchIndex = -1;
+			return;
+		}
+
 		if (event.key === 'Tab') {
 			event.preventDefault();
 			var value = inputEl.value;
@@ -499,6 +530,15 @@
 		document.addEventListener('keydown', function (event) {
 			if (event.key === 'Escape' && terminalPane.classList.contains('popout')) {
 				setPopoutState(false);
+				inputEl.focus();
+				return;
+			}
+
+			if (event.ctrlKey && event.key === '`') {
+				event.preventDefault();
+				var isPopout = !terminalPane.classList.contains('popout');
+				setPopoutState(isPopout);
+				inputEl.focus();
 			}
 		});
 	}
