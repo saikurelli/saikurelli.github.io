@@ -10,7 +10,7 @@
 		return;
 	}
 
-	var commandList = ['help', 'ls', 'cat', 'pwd', 'whoami', 'date', 'open', 'history', 'theme', 'intro', 'work', 'about', 'contact', 'resume', 'github', 'devpost', 'clear'];
+	var commandList = ['help', 'ls', 'cat', 'pwd', 'whoami', 'date', 'open', 'history', 'theme', 'ask', 'intro', 'work', 'about', 'contact', 'resume', 'github', 'devpost', 'clear'];
 	var sectionCommands = ['intro', 'work', 'about', 'contact', 'resume'];
 	var commandArgs = {
 		'open':  ['intro', 'work', 'about', 'contact', 'resume'],
@@ -30,6 +30,101 @@
 		'resume.txt':  { permissions: '-rw-r--r--', modified: new Date('2025-02-10T16:20:00') },
 		'.plans.txt':  { permissions: '-rw-------', modified: new Date('2025-05-01T12:00:00') }
 	};
+	// Resume knowledge base — each entry has keyword triggers and a plain-text answer.
+	var resumeKnowledgeBase = [
+		{
+			keywords: ['name', 'who are you', 'who is', 'introduce', 'yourself', 'sai', 'saikurelli', 'sairaja'],
+			answer: "I'm Sai Kurelli (Sairaja Kurelli) — a software engineer who studied Computer Science at The University of Texas at Austin. I enjoy building practical software with clean architecture and a strong developer experience."
+		},
+		{
+			keywords: ['education', 'university', 'college', 'school', 'degree', 'study', 'studied', 'major', 'ut austin', 'texas', 'cs degree', 'computer science', 'graduate', 'graduated'],
+			answer: "Sai studied Computer Science at The University of Texas at Austin. The program included systems-heavy coursework. He was also active in ACM, UT's close-knit CS community."
+		},
+		{
+			keywords: ['acm', 'club', 'organization', 'vice president', 'vp', 'finance', 'community', 'student org', 'student organization', 'leadership'],
+			answer: "At UT Austin, Sai served as ACM's Vice President of Finance — helping plan budgets and community events for one of UT's largest engineering organizations."
+		},
+		{
+			keywords: ['skill', 'skills', 'technology', 'technologies', 'tech stack', 'languages', 'tools', 'programming', 'proficient', 'expertise'],
+			answer: "Sai's focus areas include backend systems, high-level system design, and developer tooling. He values clean architecture, readable code, and maintainable engineering choices."
+		},
+		{
+			keywords: ['backend', 'back-end', 'server', 'systems', 'system design', 'infrastructure', 'api', 'database'],
+			answer: "Sai's primary technical focus is backend systems and system design. He enjoys high-level architectural thinking and building reliable, well-structured server-side software."
+		},
+		{
+			keywords: ['project', 'projects', 'hackathon', 'devpost', 'side project', 'portfolio', 'worked on', 'created', 'developed', 'built'],
+			answer: "Sai's projects live on GitHub (https://github.com/saikurelli) and Devpost (https://devpost.com/saikurelli). He has hackathon submissions and personal projects at both. Type 'github' or 'devpost' to open them directly."
+		},
+		{
+			keywords: ['github', 'git', 'repository', 'repositories', 'repo', 'open source', 'contributions', 'contribution graph'],
+			answer: "Sai's GitHub is at https://github.com/saikurelli — the contribution graph may include private projects too. Type 'github' to open it in a new tab."
+		},
+		{
+			keywords: ['contact', 'reach', 'email', 'linkedin', 'message', 'hire', 'hiring', 'connect', 'social', 'talk'],
+			answer: "You can reach Sai via:\n  Email: saikurelli1@gmail.com\n  LinkedIn: https://www.linkedin.com/in/sai-kurelli/\n  GitHub: https://github.com/saikurelli\nType 'contact' to open the contact section."
+		},
+		{
+			keywords: ['interest', 'interests', 'like', 'enjoy', 'passion', 'passionate', 'love', 'focus', 'currently', 'working on', 'goal', 'goals'],
+			answer: "Sai is especially interested in terminal-inspired UX patterns, practical automation, backend systems, and maintainable engineering decisions. He prefers iterative delivery and readable code."
+		},
+		{
+			keywords: ['resume', 'cv', 'curriculum vitae', 'download', 'pdf', 'work history', 'employment', 'experience'],
+			answer: "Sai's full resume is available at https://saikurelli.github.io/resume/. Type 'resume' to open the resume section."
+		},
+		{
+			keywords: ['website', 'site', 'portfolio site', 'how was', 'built with', 'made with', 'framework', 'html', 'css', 'javascript', 'terminal ui'],
+			answer: "This portfolio is built with HTML, CSS, and vanilla JavaScript. It uses a terminal-inspired UX to make navigation fast and fun — the shell-like interface is intentional!"
+		},
+		{
+			keywords: ['available', 'availability', 'open to', 'looking for', 'job search', 'internship', 'full time', 'full-time', 'opportunity', 'opportunities', 'collaborate'],
+			answer: "For availability and opportunities, reach out directly: email saikurelli1@gmail.com or connect on LinkedIn at https://www.linkedin.com/in/sai-kurelli/."
+		}
+	];
+
+	function matchResumeQuestion(question) {
+		var q = question.toLowerCase().replace(/[^a-z0-9 ]/g, ' ');
+		var best = null;
+		var bestScore = 0;
+
+		resumeKnowledgeBase.forEach(function (entry) {
+			var score = 0;
+			entry.keywords.forEach(function (kw) {
+				if (q.indexOf(kw) >= 0) {
+					// Longer keyword phrases get higher weight so precise matches win.
+					score += kw.split(' ').length;
+				}
+			});
+			if (score > bestScore) {
+				bestScore = score;
+				best = entry;
+			}
+		});
+
+		return bestScore > 0 ? best.answer : null;
+	}
+
+	function printAgentAnswer(answer) {
+		var thinkingLine = document.createElement('div');
+		thinkingLine.className = 'terminal-line cmd-muted';
+		thinkingLine.textContent = 'Thinking…';
+		outputEl.appendChild(thinkingLine);
+		outputEl.scrollTop = outputEl.scrollHeight;
+
+		setTimeout(function () {
+			outputEl.removeChild(thinkingLine);
+
+			var lines = answer.split('\n');
+			lines.forEach(function (line) {
+				var el = document.createElement('div');
+				el.className = 'terminal-line agent-answer';
+				el.textContent = line;
+				outputEl.appendChild(el);
+			});
+			outputEl.scrollTop = outputEl.scrollHeight;
+		}, 500);
+	}
+
 	var history = [];
 	var historyIndex = -1;
 	var themeStorageKey = 'saikurelli-theme';
@@ -142,6 +237,7 @@
 				['date', ''],
 				['history', ''],
 				['theme', '&lt;dark|light|toggle|status&gt;'],
+				['ask', '&lt;question about Sai&gt;'],
 				['open', '&lt;intro|work|about|contact|resume&gt;'],
 				['intro', ''],
 				['work', ''],
@@ -334,6 +430,23 @@
 
 		if (sectionCommands.indexOf(command) >= 0) {
 			openSection(command);
+			return;
+		}
+
+		if (command === 'ask') {
+			var question = args.join(' ').trim();
+			if (!question) {
+				printHTML('<span class="cmd-info">Usage: ask &lt;question about Sai&gt;</span>');
+				printHTML('<span class="cmd-muted">Examples: ask what did you study? &nbsp; ask what are your skills? &nbsp; ask how to contact you?</span>');
+				return;
+			}
+
+			var answer = matchResumeQuestion(question);
+			if (answer) {
+				printAgentAnswer(answer);
+			} else {
+				printHTML('<span class="cmd-muted">Hmm, I\'m not sure about that. Try asking about education, skills, projects, contact, or interests.</span>');
+			}
 			return;
 		}
 
