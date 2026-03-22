@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Blog — Sai Kurelli</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+		<link rel="stylesheet" href="/assets/css/main.css" />
+		<link rel="stylesheet" href="/assets/css/blog.css" />
+	</head>
+	<body class="blog-page">
+
+		<div id="blog-wrapper">
+
+			<!-- Header / nav -->
+			<header class="blog-header">
+				<a href="/" class="blog-back-link">← saikurelli.github.io</a>
+				<h1 class="blog-page-title">Blog</h1>
+			</header>
+
+			<!-- AI Summary Slider -->
+			<section class="blog-slider" id="blog-slider" aria-label="AI post summaries">
+				<div class="slider-header">
+					<span class="slider-label">✦ AI Summary</span>
+					<div class="slider-nav">
+						<button type="button" class="slider-arrow" id="slider-prev" aria-label="Previous post">&#8249;</button>
+						<div class="slider-dots" id="slider-dots" role="tablist" aria-label="Slide indicators"></div>
+						<button type="button" class="slider-arrow" id="slider-next" aria-label="Next post">&#8250;</button>
+					</div>
+				</div>
+				<div class="slider-track" id="slider-track" aria-live="polite">
+					<!-- Slides injected by blog.js -->
+				</div>
+			</section>
+
+			<!-- Tag filter -->
+			<div class="tag-filter" id="tag-filter" role="group" aria-label="Filter posts by tag">
+				<!-- Populated by blog.js -->
+			</div>
+
+			<!-- Post grid -->
+			<div class="post-grid" id="post-grid" aria-live="polite">
+				<!-- Cards populated by blog.js -->
+				<p class="post-grid-empty">Loading posts&hellip;</p>
+			</div>
+
+		</div>
+
+		<!-- BG (matches main site visual) -->
+		<div id="bg"></div>
+
+		<script src="/assets/js/blog.js"></script>
+	</body>
+</html>

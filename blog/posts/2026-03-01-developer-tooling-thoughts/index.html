@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Thoughts on Developer Tooling — Sai Kurelli</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="Good developer tooling is invisible when it works and painful when it doesn't. Here are some patterns I've found consistently valuable." />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+		<link rel="stylesheet" href="/assets/css/main.css" />
+		<link rel="stylesheet" href="/assets/css/blog.css" />
+	</head>
+	<body class="blog-page">
+
+		<div id="blog-wrapper">
+
+			<!-- Header / nav -->
+			<header class="blog-header">
+				<a href="/blog/" class="blog-back-link">← Blog</a>
+				<a href="/" class="blog-back-link" style="margin-left:auto;">saikurelli.github.io</a>
+			</header>
+
+			<!-- Post article -->
+			<article class="blog-post-article">
+
+				<div class="post-meta">
+					<span class="post-meta-date">March 1, 2026</span>
+					<span class="post-meta-tag">tooling</span>
+					<span class="post-meta-tag">dx</span>
+					<span class="post-meta-tag">backend</span>
+				</div>
+
+				<h1 class="post-heading">Thoughts on Developer Tooling</h1>
+
+				<!-- AI Summary callout -->
+				<div class="ai-summary-callout" aria-label="AI generated summary">
+					<div class="ai-summary-callout-label">✦ AI Summary</div>
+					<p class="ai-summary-callout-text">This post argues that the best developer tools reduce friction without demanding attention. It covers CLI ergonomics, fast feedback loops, and the value of opinionated defaults in backend workflows.</p>
+				</div>
+
+				<div class="post-body">
+					<p>
+						Good developer tooling is almost invisible. You notice it only when it breaks, or when you switch to a project that doesn't have it and everything suddenly feels sluggish and error-prone. The best tools handle the tedious parts of a workflow without demanding your attention or configuration overhead.
+					</p>
+					<p>
+						I've been thinking about what separates tooling that genuinely improves a workflow from tooling that adds overhead while solving a problem you didn't have. Here are a few patterns I've found consistently useful.
+					</p>
+
+					<h2>Fast Feedback Loops</h2>
+					<p>
+						The single most important property of developer tooling is the time between making a change and seeing its effect. Long feedback loops are productivity killers — they break flow, encourage batch-and-pray development, and make debugging harder because more changes happened between each signal.
+					</p>
+					<p>
+						In practice this means: fast test runs (or a subset that covers the path you're changing), file-watching build steps, and local environments that match production closely enough that you trust the feedback. A test suite that takes 20 minutes to run doesn't get run often enough to catch problems early.
+					</p>
+					<p>
+						For backend services, <code>docker compose watch</code> or a similar hot-reload setup can close the feedback loop on integration-level changes that unit tests won't catch. The key is that the feedback comes to you, not that you have to go check for it.
+					</p>
+
+					<h2>CLI Ergonomics Matter More Than You'd Think</h2>
+					<p>
+						Command-line interfaces are the most direct way to interact with a system. A poorly designed CLI forces you to remember incantations, look up flags constantly, and mentally translate between what you want to do and what the tool actually accepts.
+					</p>
+					<p>
+						A few properties I look for in CLIs: subcommands that map to mental models (not implementation details), helpful error messages that explain why a command failed and what to do instead, and <code>--help</code> output that you can actually read in a terminal without a man page. Tab completion for common arguments is a small thing that pays significant dividends over time.
+					</p>
+					<p>
+						When building internal tooling, investing a few extra hours in the CLI interface almost always pays off. The tool gets used more, used correctly, and requires less tribal knowledge to operate.
+					</p>
+
+					<h2>Opinionated Defaults</h2>
+					<p>
+						Configuration is a form of cognitive overhead. Every choice your tooling leaves to the developer is a choice they have to make, document, and communicate to new teammates. Opinionated defaults — where the tool makes sensible choices so you don't have to — reduce this overhead.
+					</p>
+					<p>
+						This doesn't mean inflexibility. It means that the default path should work well for the common case, and the configuration surface should be reserved for cases that genuinely need it. The classic failure mode is a tool that requires three config files before you can run <code>hello world</code>.
+					</p>
+					<p>
+						For backend development workflows, this might look like: a project scaffold that sets up linting, a test runner, a local environment config, and a sensible directory structure out of the box. New engineers shouldn't have to make these decisions from scratch on every project.
+					</p>
+
+					<h2>Automation Over Documentation</h2>
+					<p>
+						Documentation of manual setup steps degrades. People skip steps, environments drift, and the document goes stale while looking authoritative. Automation doesn't have this problem — if the script is wrong, it fails loudly.
+					</p>
+					<p>
+						Whenever I catch myself writing a list of manual steps in a README, I try to ask whether those steps could be a script instead. Usually they can. A <code>make setup</code> or <code>./scripts/bootstrap.sh</code> that installs dependencies, sets up the local database, and seeds test data is worth far more than a README that attempts to describe the same process.
+					</p>
+					<p>
+						The bar isn't perfection — a script that handles 90% of cases and fails with a clear message for the other 10% is still much better than a document that silently doesn't apply.
+					</p>
+
+					<h2>The Underappreciated Value of Consistency</h2>
+					<p>
+						Finally: consistency across a codebase and team is undervalued. Having one way to run tests, one way to start the local server, one way to deploy, means everyone operates from the same mental model. Context switching between projects with wildly different tooling setups is expensive.
+					</p>
+					<p>
+						Standardizing on a small set of well-understood tools — and resisting the temptation to adopt every new thing — keeps the cognitive overhead manageable. The goal is always to spend attention on the problem, not on the environment.
+					</p>
+				</div>
+
+				<footer class="post-footer">
+					<a href="/blog/posts/2026-02-15-backend-systems-patterns/" class="post-nav-link">← Previous Post</a>
+					<a href="/blog/" class="post-nav-link">All Posts →</a>
+				</footer>
+
+			</article>
+
+		</div>
+
+		<!-- BG -->
+		<div id="bg"></div>
+
+	</body>
+</html>

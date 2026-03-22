@@ -10,7 +10,7 @@
 		return;
 	}
 
-	var commandList = ['help', 'ls', 'cat', 'pwd', 'whoami', 'date', 'open', 'history', 'theme', 'ask', 'intro', 'work', 'about', 'contact', 'resume', 'github', 'devpost', 'clear'];
+	var commandList = ['help', 'ls', 'cat', 'pwd', 'whoami', 'date', 'open', 'history', 'theme', 'ask', 'intro', 'work', 'about', 'contact', 'resume', 'github', 'devpost', 'blog', 'clear'];
 	var sectionCommands = ['intro', 'work', 'about', 'contact', 'resume'];
 	var commandArgs = {
 		'open':  ['intro', 'work', 'about', 'contact', 'resume'],
@@ -249,6 +249,7 @@
 				['resume', ''],
 				['github', ''],
 				['devpost', ''],
+				['blog', ''],
 				['clear', '']
 			].forEach(function (entry) {
 				var cmd = entry[0];
@@ -428,6 +429,12 @@
 		if (command === 'devpost') {
 			printHTML('<span class="cmd-info">Opening Devpost profile...</span>');
 			window.open('https://devpost.com/saikurelli', '_blank', 'noopener,noreferrer');
+			return;
+		}
+
+		if (command === 'blog') {
+			printHTML('<span class="cmd-info">Opening Blog...</span>');
+			window.location.href = '/blog/';
 			return;
 		}
 

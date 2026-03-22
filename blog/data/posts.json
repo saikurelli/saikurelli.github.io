@@ -1,0 +1,20 @@
+[
+  {
+    "slug": "2026-03-01-developer-tooling-thoughts",
+    "title": "Thoughts on Developer Tooling",
+    "date": "2026-03-01",
+    "tags": ["tooling", "dx", "backend"],
+    "excerpt": "Good developer tooling is invisible when it works and painful when it doesn't. Here are some patterns I've found consistently valuable.",
+    "ai_summary": "This post argues that the best developer tools reduce friction without demanding attention. It covers CLI ergonomics, fast feedback loops, and the value of opinionated defaults in backend workflows.",
+    "url": "/blog/posts/2026-03-01-developer-tooling-thoughts/"
+  },
+  {
+    "slug": "2026-02-15-backend-systems-patterns",
+    "title": "Patterns for Resilient Backend Systems",
+    "date": "2026-02-15",
+    "tags": ["backend", "systems", "architecture"],
+    "excerpt": "A look at circuit breakers, retry strategies, and idempotency keys as core tools for building fault-tolerant services.",
+    "ai_summary": "This post walks through three foundational patterns for resilient distributed services: circuit breakers to stop cascading failures, exponential backoff for safe retries, and idempotency keys to make operations safe to repeat.",
+    "url": "/blog/posts/2026-02-15-backend-systems-patterns/"
+  }
+]
