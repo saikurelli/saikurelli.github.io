@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Patterns for Resilient Backend Systems — Sai Kurelli</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="A look at circuit breakers, retry strategies, and idempotency keys as core tools for building fault-tolerant services." />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+		<link rel="stylesheet" href="/assets/css/main.css" />
+		<link rel="stylesheet" href="/assets/css/blog.css" />
+	</head>
+	<body class="blog-page">
+
+		<div id="blog-wrapper">
+
+			<!-- Header / nav -->
+			<header class="blog-header">
+				<a href="/blog/" class="blog-back-link">← Blog</a>
+				<a href="/" class="blog-back-link" style="margin-left:auto;">saikurelli.github.io</a>
+			</header>
+
+			<!-- Post article -->
+			<article class="blog-post-article">
+
+				<div class="post-meta">
+					<span class="post-meta-date">February 15, 2026</span>
+					<span class="post-meta-tag">backend</span>
+					<span class="post-meta-tag">systems</span>
+					<span class="post-meta-tag">architecture</span>
+				</div>
+
+				<h1 class="post-heading">Patterns for Resilient Backend Systems</h1>
+
+				<!-- AI Summary callout -->
+				<div class="ai-summary-callout" aria-label="AI generated summary">
+					<div class="ai-summary-callout-label">✦ AI Summary</div>
+					<p class="ai-summary-callout-text">This post walks through three foundational patterns for resilient distributed services: circuit breakers to stop cascading failures, exponential backoff for safe retries, and idempotency keys to make operations safe to repeat.</p>
+				</div>
+
+				<div class="post-body">
+					<p>
+						Distributed systems fail. Networks partition, downstream services go down, databases hit connection limits. The question isn't whether your system will encounter failure — it's whether your system handles failure gracefully or amplifies it.
+					</p>
+					<p>
+						Over time I've settled on three patterns that show up repeatedly in resilient backend architectures. They're not new ideas, but they're worth internalizing because they compose well and address different failure modes.
+					</p>
+
+					<h2>1. Circuit Breakers</h2>
+					<p>
+						A circuit breaker sits in front of a downstream call and tracks its recent failure rate. When failures exceed a threshold it "opens" and stops forwarding requests for a cooldown period, returning a fast failure immediately instead. After the cooldown it allows a small number of test requests through — if they succeed, the circuit closes again.
+					</p>
+					<p>
+						The key insight is that under failure, continuing to send requests often makes things worse: you exhaust thread pools, pile up timeouts, and cascade load onto an already-struggling service. The circuit breaker sacrifices individual requests to protect the broader system.
+					</p>
+					<p>
+						In practice, make sure the fallback behavior is explicit. A tripped circuit should return a well-defined degraded response — an empty list, a cached value, a clear error — rather than an ambiguous timeout. This matters for your callers and for on-call debugging.
+					</p>
+
+					<h2>2. Exponential Backoff with Jitter</h2>
+					<p>
+						When a transient failure occurs — a rate limit, a brief network blip, a momentarily overloaded service — retrying immediately is usually wrong. Linear backoff is better. Exponential backoff is better still: double the wait time on each retry up to a cap.
+					</p>
+					<p>
+						But pure exponential backoff has a thundering-herd problem: if many clients failed at the same moment they'll all retry at the same future moments. Adding jitter — a random offset applied to the wait time — spreads retries out and prevents synchronized retry storms.
+					</p>
+					<p>
+						A simple formula: <code>min(cap, base * 2^attempt + random(0, base))</code>. Set <code>base</code> to something like 100ms, <code>cap</code> to a few seconds, and limit total attempts to 4–6. Beyond that, treat the operation as failed and surface the error.
+					</p>
+
+					<h2>3. Idempotency Keys</h2>
+					<p>
+						Retries introduce a new problem: if your retry succeeds but you don't know whether the original request succeeded, you might duplicate a mutation — charge a customer twice, create two orders, send two emails.
+					</p>
+					<p>
+						Idempotency keys solve this. The client generates a unique key per logical operation (a UUID is fine) and includes it in the request header or body. The server stores the key alongside the result of the first successful execution. On retry, if the server has already seen this key it returns the stored result without re-executing the operation.
+					</p>
+					<p>
+						The storage can be as simple as a Redis <code>SET key result EX 86400 NX</code>. The expiry handles key cleanup; the <code>NX</code> (set if not exists) flag provides atomic check-and-set semantics. For financial or inventory operations, this pattern isn't optional — it's a correctness requirement.
+					</p>
+
+					<h2>Putting It Together</h2>
+					<p>
+						These three patterns address different problems but work well together. The circuit breaker prevents a struggling service from being overwhelmed. Exponential backoff with jitter gives transient failures room to resolve. Idempotency keys make retry-safe operations possible.
+					</p>
+					<p>
+						The right implementation scope matters too. Circuit breakers belong at service-to-service boundaries. Retry logic belongs as close to the call site as possible, ideally in a shared HTTP client wrapper. Idempotency key handling belongs in the service that owns the mutating operation, not in the caller.
+					</p>
+					<p>
+						None of these are silver bullets, but they're a solid starting foundation for any backend service that calls other services.
+					</p>
+				</div>
+
+				<footer class="post-footer">
+					<a href="/blog/" class="post-nav-link">← All Posts</a>
+					<a href="/blog/posts/2026-03-01-developer-tooling-thoughts/" class="post-nav-link">Next Post →</a>
+				</footer>
+
+			</article>
+
+		</div>
+
+		<!-- BG -->
+		<div id="bg"></div>
+
+	</body>
+</html>

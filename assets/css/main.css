@@ -1952,7 +1952,7 @@ input, select, textarea {
 
 	.terminal-controls {
 		display: grid;
-		grid-template-columns: repeat(6, minmax(min-content, 1fr));
+		grid-template-columns: repeat(7, minmax(min-content, 1fr));
 		gap: 0.4rem;
 		padding: 0 1rem 1rem;
 	}
