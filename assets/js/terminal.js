@@ -83,6 +83,8 @@
 	];
 
 	function matchResumeQuestion(question) {
+		// Score by keyword matches; longer phrases add more weight so precise matches beat loose overlaps.
+		// The knowledge base is small, so iterating entries keeps the logic simple and predictable.
 		var q = question.toLowerCase().replace(/[^a-z0-9 ]/g, ' ');
 		var best = null;
 		var bestScore = 0;
@@ -105,6 +107,7 @@
 	}
 
 	function printAgentAnswer(answer) {
+		// Show a short-lived "Thinking…" line to give feedback before the response renders.
 		var thinkingLine = document.createElement('div');
 		thinkingLine.className = 'terminal-line cmd-muted';
 		thinkingLine.textContent = 'Thinking…';
